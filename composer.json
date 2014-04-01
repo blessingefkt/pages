@@ -1,0 +1,19 @@
+{
+    "name": "iyoworks/pages",
+    "description": "Dynamic System Pages",
+    "authors": [
+        {
+            "name": "blessing",
+            "email": "blessing@iyoworks.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Pages\\": "src/Pages"
+        }
+    },
+    "minimum-stability": "stable"
+}
