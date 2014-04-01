@@ -18,7 +18,7 @@ class PageManager  {
      * @param $page
      * @param null $group
      * @param bool $admin
-     * @return \Tespa\Service\Pages\Page|bool
+     * @return bool|\Pages\Page
      */
     public function find($page, $group = null, $admin = false)
     {
@@ -32,7 +32,7 @@ class PageManager  {
     /**
      * @param $page
      * @param null $group
-     * @return \Tespa\Service\Pages\Page|bool
+     * @return \Pages\Page|bool
      */
     public function findAdmin($page, $group = null)
     {
@@ -44,7 +44,7 @@ class PageManager  {
      * @param null $group
      * @param bool $admin
      * @throws \Exception
-     * @return \Tespa\Service\Pages\Page|bool
+     * @return \Pages\Page|bool
      */
     public function findOrFail($page, $group = null, $admin = false)
     {
@@ -66,18 +66,18 @@ class PageManager  {
     /**
      * @param $name
      * @param null $slug
-     * @return \Tespa\Service\Pages\PageGroup
+     * @return \Pages\PageGroup
      */
     public function add($name, $slug = null)
     {
         $slug = $slug ?: Str::slug($name);
-        $page = new PageGroup($this, $slug, $name);
+        $page = $this->makeGroup($name, $slug);
         return $this->addGroup($slug, $page);
     }
 
     /**
      * @param $slug
-     * @return \Tespa\Service\Pages\PageGroup|null
+     * @return \Pages\PageGroup
      */
     public function group($slug)
     {
@@ -88,8 +88,8 @@ class PageManager  {
 
     /**
      * @param $slug
-     * @param \Tespa\Service\Pages\PageGroup $group
-     * @return \Tespa\Service\Pages\PageGroup
+     * @param \Pages\PageGroup $group
+     * @return \Pages\PageGroup
      */
     public function addGroup($slug, PageGroup $group)
     {
@@ -132,5 +132,15 @@ class PageManager  {
     protected function pageNotFound($page)
     {
         throw new \Exception("Page not found ($page)");
+    }
+
+    /**
+     * @param $name
+     * @param $slug
+     * @return \Pages\PageGroup
+     */
+    protected function makeGroup($name, $slug)
+    {
+        return new PageGroup($this, $slug, $name);
     }
 } 

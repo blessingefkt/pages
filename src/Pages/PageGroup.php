@@ -86,7 +86,7 @@ class PageGroup  {
     {
         if ($this->baseView && $type === 'view')
             $value = $this->baseView.'.'.$value;
-        $page = new Page($slug, $title, $value, $type, $this);
+        $page = $this->makePage($slug, $title, $value, $type);
         if ($isAdmin) $page->adminOnly($isAdmin);
         if ($slug === 'home')
         {
@@ -272,10 +272,22 @@ class PageGroup  {
     }
 
     /**
-     * @return \Tespa\Service\Pages\PageManager
+     * @return \Pages\PageManager
      */
     public function getManager()
     {
         return $this->manager;
+    }
+
+    /**
+     * @param $slug
+     * @param $title
+     * @param $value
+     * @param $type
+     * @return Page
+     */
+    protected function makePage($slug, $title, $value, $type)
+    {
+        return new Page($this, $slug, $title, $value, $type);
     }
 } 

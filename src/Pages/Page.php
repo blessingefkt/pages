@@ -33,13 +33,13 @@ class Page {
      */
     protected $group;
 
-    public function __construct($slug, $title, $value, $type = 'view', PageGroup $group = null)
+    public function __construct(PageGroup $group, $slug, $title, $value, $type = 'view')
     {
+        $this->group = $group;
         $this->slug = $slug;
         $this->title = $title;
         $this->value = $value;
         $this->type = $type;
-        $this->group = $group;
     }
 
     /**
