@@ -22,7 +22,7 @@ class PageGroup  {
     /**
      * @var callable
      */
-    protected $urlMaker, $beforeCallback;
+    protected $urlMaker, $beforeCallbacks;
     /**
      * @var PageManager
      */
@@ -261,14 +261,20 @@ class PageGroup  {
 
     public function before(callable $callback)
     {
-        $this->beforeCallback = $callback;
+        $this->beforeCallbacks[] = $callback;
         return $this;
     }
 
     public function runBeforeCallback(Page $page)
     {
-        if ($this->beforeCallback)
-            return call_user_func($this->beforeCallback, $page);
+        if ($this->beforeCallbacks)
+        {
+            foreach ($this->beforeCallbacks as $callback)
+            {
+                $result = call_user_func($callback, $page);
+                if (!is_null($result)) return $result;
+            }
+        }
     }
 
     /**
